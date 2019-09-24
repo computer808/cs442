@@ -46,6 +46,5 @@ int open_files(const char *source_name, const char *listing_name){
 	else{
 
 	}
-
 	return 1;
 }
