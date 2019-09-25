@@ -1,0 +1,14 @@
+1. hello there
+  ^
+error at column 2.
+2. this
+  ^
+error at column 2.
+3. is
+  ^
+error at column 2.
+4. a
+  ^
+error at column 2.
+5. test  ^
+error at column 2.

@@ -25,7 +25,8 @@
 /******************************
  * Global Variables
  ******************************/
-
+FILE *fp_source_name = NULL;
+FILE *fp_listing_name = NULL;
 
 /******************************
  * Function declarations
