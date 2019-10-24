@@ -1,10 +1,13 @@
 /*
- * @author Andrew Kohlhagen
+ * Andrew Kohlhagen
  *
- * Date Last Modified: 9/23/2019
+ * Date Last Modified: 9/30/2019
  *
  * 
  */
+
+#ifndef IOMNGR_H
+#define IOMNGR_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,6 +30,10 @@
  ******************************/
 FILE *fp_source_name = NULL;
 FILE *fp_listing_name = NULL;
+int line_number = 0;
+int column_number = -1;
+char *line = NULL;
+bool already_printed_line = false;
 
 /******************************
  * Function declarations
@@ -38,7 +45,7 @@ FILE *fp_listing_name = NULL;
  * If listing_name is NULL, the output goes to stdout.
  * Return 1 if the file open(s) were successful, otherwise return 0.
  */
-int open_files(const char *source_name, const char *listing_name);
+bool open_files(const char *source_name, const char *listing_name);
 
 /*
  * Close the source file and the listing file, if one was created
@@ -74,3 +81,5 @@ int get_current_line();
  * Return the current column number in the current line.
  */
 int get_current_column();
+
+#endif

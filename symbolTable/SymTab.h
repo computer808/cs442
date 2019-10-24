@@ -1,10 +1,13 @@
 /*
- * @author Andrew Kohlhagen
+ * Andrew Kohlhagen
  *
- * Date Last Modified: 9/16/2019
+ * Date Last Modified: 9/30/2019
  *
  * 
  */
+
+#ifndef SYMTAB_H
+#define SYMTAB_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,7 +23,7 @@
 /******************************
  * Structures
  ******************************/
-//The symbol table structure, implemented as a hash table. Contents are dynamically allocated according to size
+//The symbol table structure, implemented as a hash table. Contents are dynamically allocated
  struct SymTab{
 	int size;
 	struct SymEntry **contents;
@@ -76,3 +79,5 @@ struct SymEntry * first_entry(struct SymTab *aTable);			//gives the first entry 
 
 //Return the next entry after the supplied entry or NULL if no more entries.
 struct SymEntry * next_entry(struct SymTab *aTable, struct SymEntry *anEntry); //if next is null on a row, move pointer for linked list to next row, if last row then go to beginning?
+
+#endif
