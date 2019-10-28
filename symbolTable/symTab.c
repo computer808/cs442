@@ -194,6 +194,7 @@ int enter_name(struct SymTab *aTable, const char *name, struct SymEntry **anEntr
 		//see if the 'name' was at the 0th index
 		struct SymEntry *cur = aTable->contents[hash_value];
 		if(strcmp(cur->name, copy_of_name) == 0){
+			(*anEntry = cur);
 			return 0;
 		}
 		//go through linked list to see where 'name' is
@@ -201,6 +202,7 @@ int enter_name(struct SymTab *aTable, const char *name, struct SymEntry **anEntr
 			cur = cur->next;
 			 
 			if(strcmp(cur->name, copy_of_name) == 0){
+				(*anEntry = cur);
 				return 0;
 			}
 		}
