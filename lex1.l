@@ -214,8 +214,7 @@ int main(int argc, char **argv) {
 		}
 	}
 
-	printf("\nNot matched yet, listed above.\n");
-	printf("\nMatched, listed below.\n");
+	printf("\n\nPrint the tables out below.\n");
 
 
 	//print out nums_and_chars table
@@ -293,14 +292,3 @@ int main(int argc, char **argv) {
 int yywrap() {
 	//printf("Done\n");
 }
-
-//nums_and_chars table will have ints floats and chars that dont have a line_number_list.
-//nums_and_chars table will also have CHARACTER_STRING_ID(s) that have a line_number_list.
-//table_identifiers will have everything else with line_number_list.
-
-//handle these cases?
-//pre-processors (include files)
-//pointers (setting value at address)
-//ampersands (getting address of)
-//single = sign
-//'->' accessing
