@@ -1,0 +1,125 @@
+li $t0, 5
+--------------------------
+struct ExprRes {
+  int Reg; //$t0
+  struct InstrSeq * Instrs; //li $t0, 5
+};
+--------------------------
+
+li $t1, 10
+--------------------------
+struct ExprRes {
+  int Reg; //$t1
+  struct InstrSeq * Instrs; //li $t1, 10
+};
+--------------------------
+
+add $t1, $t1, $t0
+--------------------------
+struct ExprRes {
+  int Reg; //$t1
+  struct InstrSeq * Instrs; //li $t0, 5 --> li $t1, 10 --> add $t1, $t1, $t0
+};
+--------------------------
+
+
+int a = (5 + 10);
+int a = ([li $t0, 5] + [li $t1, 10]);
+int a = ([add $t1, [li $t0, 5], [li $t1, 10]]);
+
+
+.data
+	currentDoorKeys: .space 8
+	globals: .space 2 #Currently storing blink state
+	currentKey: .word 0
+	map_: .space 4096
+	shouldDisplayPlayer: .space 1 #1 = true, 0 = false (this exists because of the menu)
+
+.text
+.globl main
+main:
+	jal SetupLevelHandler
+	jal LoadLevel
+
+	j exit
+
+#Resets the current door keys for changing levels and such
+.globl ResetCurrentDoorKeys
+ResetCurrentDoorKeys:
+	enter
+
+	la $t0 currentDoorKeys
+
+	#Save the door key we already have (for black pixels)
+	li $t1, 1
+	sb $t1, ($t0)
+	li $t1, 0
+	sb $t1, 1($t0)
+	sb $t1, 2($t0)
+	sb $t1, 3($t0)
+	sb $t1, 4($t0)
+	sb $t1, 5($t0)
+	sb $t1, 6($t0)
+	sb $t1, 7($t0)
+
+	leave
+	
+LoadLevel:
+	enter
+	la $gp, globals #Put Global address into gp
+	li $s6, 5 #Register s6 is reserved just for the player x coordinate
+	li $s7, 5 #Register s7 is reserved just for the player y coordinate
+
+	#Save the door key we already have (for black pixels)
+	la $t0, currentDoorKeys
+	li $t1, 1
+	sb $t1, ($t0)
+
+	#Set blink state to start at 1 (on)
+	li $t0, 1
+	sb $t0, ($gp)
+	li $t0, 0
+	sb $t0, 1($gp)
+	
+	la $a0, map_
+	jal LevelHandlerLoadLevel
+	
+	#Start the game loop
+	jal gameLoop
+	leave
+
+gameLoop:
+	enter
+
+gameLoop_: #Actual part that is looped
+	
+	#Change Blink state (Goes between 0 and 1)
+	lb $a0, ($gp)
+	lb $a1, 1($gp)
+	swap $a0, $a1
+	sb $a0, ($gp)
+	sb $a1, 1($gp)
+
+	#Render keys
+	jal RenderKeys
+
+	#Check Key Overlap
+	la $a0, currentDoorKeys
+	jal CheckKeyOverlap
+
+	la $a0, map_
+	jal UpdateObjects
+
+	#Check input changes
+	jal Input_GetKeypress
+
+	la $t0, currentKey
+	beq $v0, $zero, keyPress_
+	
+	sw $v0, ($t0)
+
+	move $a0, $v0
+	la $a1, map_
+	jal LevelHandleKeyPress
+	
+keyPress_:

@@ -6,25 +6,6 @@
  * Driver for IOMngr.h
  */
  #include "IOMngr.h"
- 
-// int main(int argc, char **argv){
-// 	char *source_file = argv[1];
-// 	char *listing_file = argv[2];
-	
-// 	open_files(source_file, listing_file);
-// 	char c = get_source_char();
-// 	while(c != EOF){
-// 		if(c == 't'){
-// 			write_indicator(get_current_column());
-// 			write_message("hes dead jim");
-// 		}
-// 		c = get_source_char();
-// 	}
-	
-// 	close_files();
-
-// 	return 0;
-// }
 
 /*
  * Open the source file.
